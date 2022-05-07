@@ -1,0 +1,262 @@
+Last login: Sat May  7 08:43:09 on console
+mac@macui-MacBookPro ~ % cd/usr/local/mysql/bin
+zsh: no such file or directory: cd/usr/local/mysql/bin
+mac@macui-MacBookPro ~ % cd /usr/local/mysql/bin
+mac@macui-MacBookPro bin % ./mysql -uroot -p
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.29 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> DESC topic;
+ERROR 1046 (3D000): No database selected
+mysql> DESC topic;
+ERROR 1046 (3D000): No database selected
+mysql> SELECT * FROM topic;
+ERROR 1046 (3D000): No database selected
+mysql> USE opentutorials;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| opentutorials      |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> SHOW TABLES;
++-------------------------+
+| Tables_in_opentutorials |
++-------------------------+
+| topic                   |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM topic;
++----+-------------+--------------------+---------------------+--------+---------------------------+
+| id | title       | description        | created             | author | profile                   |
++----+-------------+--------------------+---------------------+--------+---------------------------+
+|  1 | MySQL       | MySQL is ...       | 2022-05-07 00:03:15 | egoing | developer                 |
+|  2 | ORACLE      | ORACLE is          | 2022-05-07 00:06:40 | egoing | developer                 |
+|  3 | SQL ServerL | SQL Server is .... | 2022-05-07 00:09:01 | duru   | data administrator        |
+|  4 | PostgreSQL  | PostgreSQL is ...  | 2022-05-07 00:10:38 | taeho  | data scientist, developer |
+|  5 | MongoDB     | MongoDB is ...     | 2022-05-07 00:11:35 | egoing | developer                 |
++----+-------------+--------------------+---------------------+--------+---------------------------+
+5 rows in set (0.00 sec)
+
+mysql> UPDATE topic SET description='Oracle is ...', title='Oracle' WHERE id=2;
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM topic;
++----+-------------+--------------------+---------------------+--------+---------------------------+
+| id | title       | description        | created             | author | profile                   |
++----+-------------+--------------------+---------------------+--------+---------------------------+
+|  1 | MySQL       | MySQL is ...       | 2022-05-07 00:03:15 | egoing | developer                 |
+|  2 | Oracle      | Oracle is ...      | 2022-05-07 00:06:40 | egoing | developer                 |
+|  3 | SQL ServerL | SQL Server is .... | 2022-05-07 00:09:01 | duru   | data administrator        |
+|  4 | PostgreSQL  | PostgreSQL is ...  | 2022-05-07 00:10:38 | taeho  | data scientist, developer |
+|  5 | MongoDB     | MongoDB is ...     | 2022-05-07 00:11:35 | egoing | developer                 |
++----+-------------+--------------------+---------------------+--------+---------------------------+
+5 rows in set (0.00 sec)
+
+mysql> DELETE FROM topic WHERE id = 5;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM topic;
++----+-------------+--------------------+---------------------+--------+---------------------------+
+| id | title       | description        | created             | author | profile                   |
++----+-------------+--------------------+---------------------+--------+---------------------------+
+|  1 | MySQL       | MySQL is ...       | 2022-05-07 00:03:15 | egoing | developer                 |
+|  2 | Oracle      | Oracle is ...      | 2022-05-07 00:06:40 | egoing | developer                 |
+|  3 | SQL ServerL | SQL Server is .... | 2022-05-07 00:09:01 | duru   | data administrator        |
+|  4 | PostgreSQL  | PostgreSQL is ...  | 2022-05-07 00:10:38 | taeho  | data scientist, developer |
++----+-------------+--------------------+---------------------+--------+---------------------------+
+4 rows in set (0.00 sec)
+
+mysql> RENAME TABLE topic TO topic_backup;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SHOW TABLES;
++-------------------------+
+| Tables_in_opentutorials |
++-------------------------+
+| topic_backup            |
++-------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM topic_backup;
++----+-------------+--------------------+---------------------+--------+---------------------------+
+| id | title       | description        | created             | author | profile                   |
++----+-------------+--------------------+---------------------+--------+---------------------------+
+|  1 | MySQL       | MySQL is ...       | 2022-05-07 00:03:15 | egoing | developer                 |
+|  2 | Oracle      | Oracle is ...      | 2022-05-07 00:06:40 | egoing | developer                 |
+|  3 | SQL ServerL | SQL Server is .... | 2022-05-07 00:09:01 | duru   | data administrator        |
+|  4 | PostgreSQL  | PostgreSQL is ...  | 2022-05-07 00:10:38 | taeho  | data scientist, developer |
++----+-------------+--------------------+---------------------+--------+---------------------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE topic(
+    -> id INT(11) NOT NULL AUTO_INCREMENT,
+    -> title VARCHAR(30) NOT NULL,
+    -> description TEXT NULL,
+    -> created DATETIME NOT NULL,
+    -> author_id INT(11) NULL,
+    -> PRIMARY KEY(id)
+    -> );
+Query OK, 0 rows affected, 2 warnings (0.01 sec)
+
+mysql> DESC topic;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id          | int         | NO   | PRI | NULL    | auto_increment |
+| title       | varchar(30) | NO   |     | NULL    |                |
+| description | text        | YES  |     | NULL    |                |
+| created     | datetime    | NO   |     | NULL    |                |
+| author_id   | int         | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> CREATE TABLE author(
+    -> id INT(11) NOT NULL AUTO_INCREMENT,
+    -> name VARCHAR(20) NOT NULL,
+    -> profile VARCHAR(200) NULL,
+    -> PRIMARY KEY(id)
+    -> );
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> INSERT INTO author (id,name,profile) VALUES(1,'egoing','developer');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT INTO topic(id,title,description,created,author_id) VALUES(1,'My SQL','MySQL is...','2022-05-07 00:03:15', 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM topic;
++----+--------+-------------+---------------------+-----------+
+| id | title  | description | created             | author_id |
++----+--------+-------------+---------------------+-----------+
+|  1 | My SQL | MySQL is... | 2022-05-07 00:03:15 |         1 |
++----+--------+-------------+---------------------+-----------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO topic(id,title,description,created,author_id) VALUES(2,'Oracle','Oracle is ...','2022-05-07 00:06:40',1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM topic;
++----+--------+---------------+---------------------+-----------+
+| id | title  | description   | created             | author_id |
++----+--------+---------------+---------------------+-----------+
+|  1 | My SQL | MySQL is...   | 2022-05-07 00:03:15 |         1 |
+|  2 | Oracle | Oracle is ... | 2022-05-07 00:06:40 |         1 |
++----+--------+---------------+---------------------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO author(id,name,profile) VALUES(2,'duro','data administrator');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM author;
++----+--------+--------------------+
+| id | name   | profile            |
++----+--------+--------------------+
+|  1 | egoing | developer          |
+|  2 | duro   | data administrator |
++----+--------+--------------------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO topic(id,title,description,created,author_id) VALUES(3, 'SQL ServerL','SQL Server is ...','2022-05-07 00:09:01', 2);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM topic;
++----+-------------+-------------------+---------------------+-----------+
+| id | title       | description       | created             | author_id |
++----+-------------+-------------------+---------------------+-----------+
+|  1 | My SQL      | MySQL is...       | 2022-05-07 00:03:15 |         1 |
+|  2 | Oracle      | Oracle is ...     | 2022-05-07 00:06:40 |         1 |
+|  3 | SQL ServerL | SQL Server is ... | 2022-05-07 00:09:01 |         2 |
++----+-------------+-------------------+---------------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT INTO author (id,name,profile) VALUES(3,'taeho', 'data scientist, developer');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT INTO topic(id,title,description,created,author_id) VALUES(4, 'PostgreSQL', 'PostgreSQL is ...','2022-05-07 00:10:38',3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM topic;
++----+-------------+-------------------+---------------------+-----------+
+| id | title       | description       | created             | author_id |
++----+-------------+-------------------+---------------------+-----------+
+|  1 | My SQL      | MySQL is...       | 2022-05-07 00:03:15 |         1 |
+|  2 | Oracle      | Oracle is ...     | 2022-05-07 00:06:40 |         1 |
+|  3 | SQL ServerL | SQL Server is ... | 2022-05-07 00:09:01 |         2 |
+|  4 | PostgreSQL  | PostgreSQL is ... | 2022-05-07 00:10:38 |         3 |
++----+-------------+-------------------+---------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> INSERT INTO topic(id,title,description,created,author_id) VALUES(5, 'MongoDB','MongoDB is ...','2022-05-07 00:11:35', 1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> SELECT * FROM author;
++----+--------+---------------------------+
+| id | name   | profile                   |
++----+--------+---------------------------+
+|  1 | egoing | developer                 |
+|  2 | duro   | data administrator        |
+|  3 | taeho  | data scientist, developer |
++----+--------+---------------------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM topic;
++----+-------------+-------------------+---------------------+-----------+
+| id | title       | description       | created             | author_id |
++----+-------------+-------------------+---------------------+-----------+
+|  1 | My SQL      | MySQL is...       | 2022-05-07 00:03:15 |         1 |
+|  2 | Oracle      | Oracle is ...     | 2022-05-07 00:06:40 |         1 |
+|  3 | SQL ServerL | SQL Server is ... | 2022-05-07 00:09:01 |         2 |
+|  4 | PostgreSQL  | PostgreSQL is ... | 2022-05-07 00:10:38 |         3 |
+|  5 | MongoDB     | MongoDB is ...    | 2022-05-07 00:11:35 |         1 |
++----+-------------+-------------------+---------------------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM topic LEFT JOIN author ON topic.author_id = author.id
+    -> ;
++----+-------------+-------------------+---------------------+-----------+------+--------+---------------------------+
+| id | title       | description       | created             | author_id | id   | name   | profile                   |
++----+-------------+-------------------+---------------------+-----------+------+--------+---------------------------+
+|  1 | My SQL      | MySQL is...       | 2022-05-07 00:03:15 |         1 |    1 | egoing | developer                 |
+|  2 | Oracle      | Oracle is ...     | 2022-05-07 00:06:40 |         1 |    1 | egoing | developer                 |
+|  3 | SQL ServerL | SQL Server is ... | 2022-05-07 00:09:01 |         2 |    2 | duro   | data administrator        |
+|  4 | PostgreSQL  | PostgreSQL is ... | 2022-05-07 00:10:38 |         3 |    3 | taeho  | data scientist, developer |
+|  5 | MongoDB     | MongoDB is ...    | 2022-05-07 00:11:35 |         1 |    1 | egoing | developer                 |
++----+-------------+-------------------+---------------------+-----------+------+--------+---------------------------+
+5 rows in set (0.00 sec)
+
+mysql>  SELECT topic.id,title,description,created,name,profile  FROM topic LEFT JOIN author ON topic.author_id = author.id;
++----+-------------+-------------------+---------------------+--------+---------------------------+
+| id | title       | description       | created             | name   | profile                   |
++----+-------------+-------------------+---------------------+--------+---------------------------+
+|  1 | My SQL      | MySQL is...       | 2022-05-07 00:03:15 | egoing | developer                 |
+|  2 | Oracle      | Oracle is ...     | 2022-05-07 00:06:40 | egoing | developer                 |
+|  3 | SQL ServerL | SQL Server is ... | 2022-05-07 00:09:01 | duro   | data administrator        |
+|  4 | PostgreSQL  | PostgreSQL is ... | 2022-05-07 00:10:38 | taeho  | data scientist, developer |
+|  5 | MongoDB     | MongoDB is ...    | 2022-05-07 00:11:35 | egoing | developer                 |
++----+-------------+-------------------+---------------------+--------+---------------------------+
+5 rows in set (0.00 sec)
+
+mysql> 
